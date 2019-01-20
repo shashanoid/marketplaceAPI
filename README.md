@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 ### Setup MySQL
 - Install MySQL in your system.
-- Create a database named '**cart**'.
+- Create a database named '**cart**'
 - Select **cart** as your schema and import SQLFiles/Cart_db.sql
 - Edit config.py accordingly with your credentials.
 ### Run
