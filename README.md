@@ -26,10 +26,27 @@ python2 app.py
 - To interact with the cart (add/delete/empty/checkout), it's necessary to initialize the cart first.
 - #### **/products**
 
-```sh
+```coffee
 curl -i http://localhost:8000/products
 
 'Returns a list of all available products (inventory count > 0)'
+
+{
+  "products": [
+    {
+      "id": 1, 
+      "inventory_count": 20, 
+      "price": 600.0, 
+      "title": "Iphone X"
+    }, 
+    {
+      "id": 2, 
+      "inventory_count": 9, 
+      "price": 40.0, 
+      "title": "Ipod Mini"
+    }
+  ]
+}
 ```
 - #### **/product/id=<integer_value>**
 ```sh
