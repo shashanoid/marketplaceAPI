@@ -49,7 +49,7 @@ curl -i http://localhost:8000/products
 }
 ```
 - #### **/product/id=<integer_value>**
-```sh
+```coffee
 curl -i http://localhost:8000/product/id=5
 
 'Returns all details about a specific product'
@@ -64,7 +64,7 @@ curl -i http://localhost:8000/product/id=5
 }
 ```
 - #### **/cart/init**
-```sh
+```coffee
 curl -i http://localhost:8000/cart/init
 
 'Initializes an empty cart'
@@ -75,7 +75,7 @@ curl -i http://localhost:8000/cart/init
 }
 ```
 - #### **/product/add/id=<integer_value>**
-```sh
+```coffee
 curl -i http://localhost:8000/product/add/id=1
 
 'Adds the product to the cart. Calling this multiple times
@@ -88,7 +88,7 @@ in the total amount'
 }
 ```
 - #### **/product/delete/id=<integer_value>**
-```sh
+```coffee
 curl -i http://localhost:8000/product/delete/id=1
 
 'Deletes a product from the cart'
@@ -99,7 +99,7 @@ curl -i http://localhost:8000/product/delete/id=1
 }
 ```
 - #### **/cart**
-```sh
+```coffee
 curl -i http://localhost:8000/cart
 
 'Displays contents of the cart along with total amount'
@@ -124,7 +124,7 @@ curl -i http://localhost:8000/cart
 }
 ```
 - #### **/cart/emptycart**
-```sh
+```coffee
 curl -i http://localhost:8000/cart/emptycart
 
 'Resets the cart'
@@ -135,7 +135,7 @@ curl -i http://localhost:8000/cart/emptycart
 }
 ```
 - #### **/cart/checkout**
-```sh
+```coffee
 curl -i http://localhost:8000/cart/checkout
 
 'Checks out a cart, updates product inventory and logs the details 
