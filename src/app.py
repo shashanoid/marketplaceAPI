@@ -20,15 +20,21 @@ class Handler:
         return None
 
     def index(self):
-        return make_response("Shopify products/cart API challenge")
+        return make_response("API that represents barebones of an online marketplace")
 
     """
     Returns all products as JSON dict
     """
-    def get_all_products(self):
-        sql = "SELECT * FROM products WHERE inventory_count > 0"
-        self.cursor.execute(sql)
-        result = self.cursor.fetchall()
+    def get_all_products(self, available):
+        if available == "True" or available == "true":
+            sql = "SELECT * FROM products WHERE inventory_count > 0"
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+        else:
+            sql = "SELECT * FROM products"
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+
         if result is not None:
             return jsonify({'products':result})
         else:
@@ -174,7 +180,8 @@ if __name__ == '__main__':
     handler = Handler()
     handler.app.register_error_handler(Exception, handler.not_found)
     handler.app.add_url_rule('/', 'index', handler.index)
-    handler.app.add_url_rule('/products', 'products', handler.get_all_products)
+    handler.app.add_url_rule('/products/availableOnly=<string:available>', 'products',
+                              handler.get_all_products)
     handler.app.add_url_rule('/product/id=<int:product_id>', 'getProduct', \
                              handler.get_product, methods=['GET'])
     handler.app.add_url_rule('/product/add/id=<int:product_id>', 'add', \

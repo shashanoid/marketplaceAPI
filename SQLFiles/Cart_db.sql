@@ -28,7 +28,7 @@ CREATE TABLE `orders` (
   `complete` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `products` (
   `price` float NOT NULL,
   `inventory_count` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Iphone X',600,21),(2,'Ipod Mini',40,10),(3,'Juul',45,5),(4,'Wallet',21.5,8),(5,'Bose QC 35',120,18),(6,'Notebook',4,21),(7,'Macbook Pro',450,7),(8,'Dell Monitor',145,3);
+INSERT INTO `products` VALUES (1,'Iphone X',600,17),(2,'Ipod Mini',40,9),(3,'Juul',45,5),(4,'Wallet',21.5,8),(5,'Bose QC 35',120,18),(6,'Notebook',4,21),(7,'Macbook Pro',450,7),(8,'Dell Monitor',145,3),(9,'Rare Nike',78,0),(10,'hope diamond',4000,0);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -75,4 +75,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-20 11:02:43
+-- Dump completed on 2019-01-20 14:02:44

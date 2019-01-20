@@ -27,9 +27,10 @@ python2 app.py
 - #### **/products**
 
 ```coffee
-curl -i http://localhost:8000/products
+curl -i http://localhost:8000/products/availableOnly=true
 
-'Returns a list of all available products (inventory count > 0)'
+'availableOnly=true returns products with (inventory count > 0)'
+'availableOnly=false returns all products'
 
 {
   "products": [
