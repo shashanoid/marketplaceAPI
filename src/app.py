@@ -29,7 +29,10 @@ class Handler:
         sql = "SELECT * FROM products WHERE inventory_count > 0"
         self.cursor.execute(sql)
         result = self.cursor.fetchall()
-        return self.end('products', result)
+        if result is not None:
+            return self.end('products', result)
+        else:
+            return self.end('Error', 'No products available')
 
     """
     Returns details of a specific product by its id.
