@@ -30,9 +30,9 @@ class Handler:
         self.cursor.execute(sql)
         result = self.cursor.fetchall()
         if result is not None:
-            return self.end('products', result)
+            return jsonify({'products':result})
         else:
-            return self.end('Error', 'No products available')
+            return self.end(False, 'No products available')
 
     """
     Returns details of a specific product by its id.
@@ -43,7 +43,7 @@ class Handler:
         result = self.cursor.fetchone()
 
         if result is not None:
-            return self.end('product', result)
+            return jsonify({'product':result})
         else:
             abort(404)
 
@@ -68,7 +68,7 @@ class Handler:
         self.product_map.clear()
         self.cart_total = 0
 
-        return self.end('Success', 'Cart ID %d Initilized' % self.cart_id)
+        return self.end(True, 'Cart ID %d Initilized' % self.cart_id)
 
     """
     Returns contents of a cart with cartID,
@@ -88,7 +88,7 @@ class Handler:
             return jsonify({'cart_id': self.cart_id, 'products': result,\
                             'total': self.cart_total})
         except:
-            return self.end('Error', 'Cart is empty')
+            return self.end(False, 'Cart is empty')
 
     """
     Adds a product to the cart. Returns error if
@@ -107,11 +107,11 @@ class Handler:
                 self.cursor.execute(get_price_query)
                 product_price = self.cursor.fetchone()['price']
                 self.cart_total = self.cart_total + product_price
-                return self.end('Success', "Successfully added to your cart")
+                return self.end(True, 'Successfully added to your cart')
             else:
-                return self.end('Error',"Product is not available at this moment")
+                return self.end(False, 'Product is not available at this moment')
         else:
-            return self.end('Error',"Please initialize a cart to purchase this product")
+            return self.end(False, 'Please initialize a cart to purchase this product')
 
     """
     Removes a product from the current cart
@@ -120,11 +120,11 @@ class Handler:
         if self.cart_id is not None:
             if product_id in self.product_map:
                 del self.product_map[product_id]
-                return self.end('Success','Successfully deleted from the cart')
+                return self.end(True,'Successfully deleted from the cart')
             else:
-                return self.end('Error','Item not in your cart')
+                return self.end(False,'Item not in your cart')
         else:
-            return self.end('Error', "Please initialize a cart to purchase this product")
+            return self.end(False, "Please initialize a cart to purchase this product")
 
     """
     Completes a cart, updates product inventory
@@ -146,11 +146,11 @@ class Handler:
                 self.cursor.execute(order_query)
                 self.connection.commit()
                 self.reset()
-                return self.end("Success", "Checkout successful !")
+                return self.end(True, 'Checkout successful !')
             else:
-                return self.end("Error", "Empty cart, please add some items")
+                return self.end(False, 'Empty cart, please add some items')
         else:
-            return self.end("Error","Initialize a cart first to checkout")
+            return self.end(False,'Initialize a cart first to checkout')
 
     # Resets the cart
     def reset(self):
@@ -158,9 +158,9 @@ class Handler:
             self.product_map.clear()
             self.cart_total = 0
             self.cart_id = None
-            return self.end('Success', 'Your cart is now empty')
+            return self.end(True, 'Your cart is now empty')
         else:
-            return self.end("Error","No cart found")
+            return self.end(False,"No cart found")
 
     @staticmethod
     def not_found(e):
@@ -168,7 +168,7 @@ class Handler:
     
     @staticmethod
     def end(response_type, response):
-        return make_response(jsonify({response_type:response}))
+        return make_response(jsonify({'success':response_type, 'message': response}))
 
 if __name__ == '__main__':
     handler = Handler()
