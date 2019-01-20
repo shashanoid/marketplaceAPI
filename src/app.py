@@ -22,14 +22,18 @@ class Handler:
     def index(self):
         return make_response("Shopify products/cart API challenge")
 
-    # Returns all products with available inventory
+    """
+    Returns all products as JSON dict
+    """
     def get_all_products(self):
         sql = "SELECT * FROM products WHERE inventory_count > 0"
         self.cursor.execute(sql)
         result = self.cursor.fetchall()
         return self.end('products', result)
 
-    # Gets a product
+    """
+    Returns details of a specific product by its id.
+    """
     def get_product(self, product_id):
         sql = "SELECT * FROM products WHERE id= '%d'"
         self.cursor.execute(sql % product_id)
@@ -40,7 +44,10 @@ class Handler:
         else:
             abort(404)
 
-    # Checks if product is available
+    """
+    Returns bool value for if a product is available
+    or not in the inventory
+    """
     def check_inventory(self, product_id):
         check_inventory_query = "SELECT * FROM products WHERE id=%d AND \
                             inventory_count > 0" % product_id
@@ -52,7 +59,6 @@ class Handler:
         else:
             return False
 
-    # Initializes a cart
     def initialize_cart(self):
         if self.cart_id is None:
             self.cart_id = 1
@@ -61,7 +67,10 @@ class Handler:
 
         return self.end('Success', 'Cart ID %d Initilized' % self.cart_id)
 
-    # Displays contents of the current cart
+    """
+    Returns contents of a cart with cartID,
+    product description and a total amount.
+    """
     def view_cart(self):
         try:
             product_ids = [id for id in self.product_map.keys()]
@@ -78,7 +87,10 @@ class Handler:
         except:
             return self.end('Error', 'Cart is empty')
 
-    # Adds products to the cart
+    """
+    Adds a product to the cart. Returns error if
+    cart is not initialized.
+    """
     def add_to_cart(self, product_id):
         if self.cart_id is not None:
             if self.check_inventory(product_id) is True:
@@ -98,7 +110,9 @@ class Handler:
         else:
             return self.end('Error',"Please initialize a cart to purchase this product")
 
-    # Deletes an product from the cart
+    """
+    Removes a product from the current cart
+    """
     def delete_from_cart(self, product_id):
         if self.cart_id is not None:
             if product_id in self.product_map:
@@ -109,7 +123,10 @@ class Handler:
         else:
             return self.end('Error', "Please initialize a cart to purchase this product")
 
-    # Completes the cart, updates inventory and logs it
+    """
+    Completes a cart, updates product inventory
+    and logs total amount and timestamp into database.
+    """
     def checkout_cart(self):
         if self.cart_id is not None:
             if len(self.product_map) > 0:
@@ -132,11 +149,15 @@ class Handler:
         else:
             return self.end("Error","Initialize a cart first to checkout")
 
-    # Resets data
+    # Resets the cart
     def reset(self):
-        self.product_map.clear()
-        self.cart_total = 0
-        self.cart_id = None
+        if self.cart_id is not None:
+            self.product_map.clear()
+            self.cart_total = 0
+            self.cart_id = None
+            return self.end('Success', 'Your cart is now empty')
+        else:
+            return self.end("Error","No cart found")
 
     @staticmethod
     def not_found(e):
@@ -151,13 +172,16 @@ if __name__ == '__main__':
     handler.app.register_error_handler(Exception, handler.not_found)
     handler.app.add_url_rule('/', 'index', handler.index)
     handler.app.add_url_rule('/products', 'products', handler.get_all_products)
-    handler.app.add_url_rule('/product/<int:product_id>', 'getProduct', handler.get_product, methods=['GET'])
-    handler.app.add_url_rule('/product/add/<int:product_id>', 'add', handler.add_to_cart, methods=['GET'])
-    handler.app.add_url_rule('/product/delete/<int:product_id>', 'delete', handler.delete_from_cart, methods=['GET'])
+    handler.app.add_url_rule('/product/id=<int:product_id>', 'getProduct', \
+                             handler.get_product, methods=['GET'])
+    handler.app.add_url_rule('/product/add/id=<int:product_id>', 'add', \
+                             handler.add_to_cart, methods=['GET'])
+    handler.app.add_url_rule('/product/delete/id=<int:product_id>', 'delete',\
+                             handler.delete_from_cart, methods=['GET'])
     handler.app.add_url_rule('/cart/init', 'initialize', handler.initialize_cart)
     handler.app.add_url_rule('/cart', 'view', handler.view_cart)
     handler.app.add_url_rule('/cart/checkout', 'checkout', handler.checkout_cart)
+    handler.app.add_url_rule('/cart/emptycart', 'emptycart', handler.reset)
     handler.app.secret_key = 'qwerty123@'
     handler.app.run(debug=True, port=8000)
     handler.connection.close()
-    

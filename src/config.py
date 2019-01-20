@@ -1,6 +1,6 @@
 db_data = {
     "host": "localhost",
     "user": "root",
-    "pass": "<password>",
+    "pass": "meena123@",
     "db": "cart" 
 }
