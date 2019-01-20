@@ -50,15 +50,29 @@ curl -i http://localhost:8000/products
 ```
 - #### **/product/id=<integer_value>**
 ```sh
-curl -i http://localhost:8000/product/id=1
+curl -i http://localhost:8000/product/id=5
 
 'Returns all details about a specific product'
+
+{
+  "product": {
+    "id": 5, 
+    "inventory_count": 18, 
+    "price": 120.0, 
+    "title": "Bose QC 35"
+  }
+}
 ```
 - #### **/cart/init**
 ```sh
 curl -i http://localhost:8000/cart/init
 
 'Initializes an empty cart'
+
+{
+  "message": "Cart ID 1 Initilized", 
+  "success": true
+}
 ```
 - #### **/product/add/id=<integer_value>**
 ```sh
@@ -67,24 +81,58 @@ curl -i http://localhost:8000/product/add/id=1
 'Adds the product to the cart. Calling this multiple times
 would multiply the product count in the cart and will reflect
 in the total amount'
+
+{
+  "message": "Successfully added to your cart", 
+  "success": true
+}
 ```
 - #### **/product/delete/id=<integer_value>**
 ```sh
 curl -i http://localhost:8000/product/delete/id=1
 
 'Deletes a product from the cart'
+
+{
+  "message": "Successfully deleted from the cart", 
+  "success": true
+}
 ```
 - #### **/cart**
 ```sh
 curl -i http://localhost:8000/cart
 
 'Displays contents of the cart along with total amount'
+
+{
+  "cart_id": 1, 
+  "products": [
+    {
+      "id": 1, 
+      "inventory_count": 20, 
+      "price": 600.0, 
+      "title": "Iphone X"
+    }, 
+    {
+      "id": 5, 
+      "inventory_count": 18, 
+      "price": 120.0, 
+      "title": "Bose QC 35"
+    }
+  ], 
+  "total": 1320.0
+}
 ```
 - #### **/cart/emptycart**
 ```sh
 curl -i http://localhost:8000/cart/emptycart
 
 'Resets the cart'
+
+{
+  "message": "Your cart is now empty", 
+  "success": true
+}
 ```
 - #### **/cart/checkout**
 ```sh
@@ -92,6 +140,11 @@ curl -i http://localhost:8000/cart/checkout
 
 'Checks out a cart, updates product inventory and logs the details 
 into 'orders' database'
+
+{
+  "message": "Checkout successful !", 
+  "success": true
+}
 ```
 
 **Note:** Endpoints mentioned above can be accessed through the browser as well. Simply paste
