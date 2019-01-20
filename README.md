@@ -23,10 +23,10 @@ python2 app.py
 ```
 
 #### Endpoints
-- /products - Returns all available products
-- /product/<int:product_id> - Returns specific product details
-- /cart/init - Initializes a cart
-- /product/add/<int:product_id> - Adds a product to the cart
-- /product/delete/<int:product_id> - Deletes a product from the cart
-- /cart - Displays the cart with products and total amount
-- /cart/checkout - Checks out a cart, updates inventory and logs into "orders" database
+- **/products** - Returns all available products
+- **/product/<int:product_id>** - Returns specific product details
+- **/cart/init** - Initializes a cart
+- **/product/add/<int:product_id>** - Adds a product to the cart
+- **/product/delete/<int:product_id>** - Deletes a product from the cart
+- **/cart** - Displays the cart with products and total amount
+- **/cart/checkout** - Checks out a cart, updates inventory and logs into "orders" database
